@@ -68,8 +68,8 @@ router.route('/tasks/:task_id')
 		ITask.findById(req.params.task_id, function(err, task){
 			if(err)
 				res.send(err);
-			task.isCompleted = req.body.isCompleted || task.isCompleted;
-			task.taskText = req.body.taskText || task.taskText;
+			task.isCompleted = req.body.isCompleted;
+			task.taskText = req.body.taskText;
 			
 			task.save(function(err){
 				if(err)
