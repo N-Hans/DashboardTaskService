@@ -69,7 +69,7 @@ router.route('/tasks/:task_id')
 			if(err)
 				res.send(err);
 			task.isCompleted = req.body.isCompleted;
-			task.taskText = req.body.taskText;
+			task.taskText = req.body.taskText || task.taskText;
 			
 			task.save(function(err){
 				if(err)
