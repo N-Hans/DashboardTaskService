@@ -74,7 +74,11 @@ router.route('/tasks/:task_id')
 			task.save(function(err){
 				if(err)
 					res.send(err);
-				res.json(ITask.find())
+				res.json(ITask.find(function(err, tasks){
+			if(err)
+				res.send(err);
+			res.json(tasks);
+		}))
 			});
 			
 		});
