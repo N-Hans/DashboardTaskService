@@ -48,6 +48,7 @@ router.route('/tasks')
 	})
 
 	.get(function(req, res){
+		let tasksResponse = ITask.find();
 		ITask.find(function(err, tasks){
 			if(err)
 				res.send(err);
@@ -70,15 +71,14 @@ router.route('/tasks/:task_id')
 				res.send(err);
 			task.isCompleted = req.body.isCompleted;
 			task.taskText = req.body.taskText || task.taskText;
-			
+			var allTasks = ITask.find(function(err, tasks){
+				if (err) console.log(err);
+				return tasks
+			})
 			task.save(function(err){
 				if(err)
 					res.send(err);
-				res.json(ITask.find(function(err, tasks){
-			if(err)
-				res.send(err);
-			res.json(tasks);
-		}))
+				res.json(alltasks)
 			});
 			
 		});
