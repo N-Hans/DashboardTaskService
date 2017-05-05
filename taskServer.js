@@ -43,7 +43,13 @@ router.route('/tasks')
 		task.save(function(err){
 			if (err)
 				res.send(err);
-			res.json({message: "Task created"});
+			if (!err)
+				console.log("task " + task._id + " created")
+			ITask.find(function(err, tasks){
+				if (err) 
+					console.log(err);
+				res.json(tasks)
+			});
 		});
 	})
 
@@ -71,17 +77,19 @@ router.route('/tasks/:task_id')
 				res.send(err);
 			task.isCompleted = req.body.isCompleted;
 			task.taskText = req.body.taskText || task.taskText;
-			var allTasks = ITask.find(function(err, tasks){
-				if (err) console.log(err);
-				return tasks
-			})
-			task.save(function(err){
-				if(err)
-					res.send(err);
-				res.json(alltasks)
+			task.save(function(err,savedTask){
+				if (err)
+					console.log(err);
+					res.json(err)
+				if (!err)
+					console.log("task " + task._id + " updated")
+				ITask.find(function(err, tasks){
+					if (err) 
+						console.log(err);
+					res.json(tasks)
+				});
 			});
-			
-		});
+		})
 	})
 	
 	.delete(function(req, res){
@@ -90,7 +98,13 @@ router.route('/tasks/:task_id')
 		}, function(err, task){
 			if(err)
 				res.send(err);
-			res.json({message:"Task deleted"});
+			if(!err)
+				console.log("task " + task._id + " deleted")
+			ITask.find(function(err, tasks){
+				if (err) 
+					console.log(err);
+				res.json(tasks)
+			});
 		});
 	});
 
